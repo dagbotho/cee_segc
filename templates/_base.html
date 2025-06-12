@@ -11,6 +11,9 @@
             <a href="/" class="logo">
                 My Shop
             </a>
+            {% if user.is_authenticated %}
+                
+            
             <li>
                 <a href="{% url 'account_signup' %}">Sign Up</a>
             </li>
@@ -23,6 +26,7 @@
             <li>
                 <a href="{% url 'account_change_password' %}">Change Password</a>
             </li>
+            {% endif %}
         </div>
         <div id="subheader">
             <div class="cart">
