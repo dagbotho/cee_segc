@@ -32,6 +32,14 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    land_length = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    land_width = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    product_weight = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    product_height = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    product_length = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    product_width = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    product_depth = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    refrigerated = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['name']

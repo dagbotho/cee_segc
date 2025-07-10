@@ -21,13 +21,30 @@ class Invoice(models.Model):
     invoice_number = models.CharField(max_length=50)
     invoice_date = models.DateField(auto_now_add=True)
     invoice_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_schedule_id = models.ForeignKey('PaymentSchedule', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f"Invoice {self.invoice_number} - {self.invoice_date}"
+    
+
+class PaymentSchedule(models.Model):
+    invoice_id = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    payment_due_date = models.DateField()
+    payment_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_status = models.CharField(max_length=20, choices=[('Pending', 'Pending'), ('Paid', 'Paid')], default='Pending')
+
+    def __str__(self):
+        return f"Payment Schedule for {self.invoice_id.invoice_number} - Due: {self.payment_due_date}"
 
 
 class PaymentRecord(models.Model):
     invoice_id = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    payment_schedule_id = models.ForeignKey(PaymentSchedule, on_delete=models.CASCADE)
+    payment_date = models.DateField(auto_now_add=True)
+    payment_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_method = models.CharField(max_length=50, choices=[('Cash', 'Cash'), ('Credit Card', 'Credit Card'), ('Bank Transfer', 'Bank Transfer')], default='Cash')
+    payment_status = models.CharField(max_length=20, choices=[('Pending', 'Pending'), ('Completed', 'Completed')], default='Pending')
+    transaction_reference = models.CharField(max_length=100, blank=True, null=True)
 
 
 class ThirdParty(models.Model):
